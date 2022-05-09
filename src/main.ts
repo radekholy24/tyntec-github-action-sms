@@ -1,5 +1,8 @@
 import * as core from '@actions/core'
-import {RestMessageResponse, composeSendSMSRequestAxiosConfig} from './tyntec'
+import {
+  RestMessageResponse,
+  composeSendMessageRequestAxiosConfig
+} from './tyntec'
 import assert from 'assert'
 import axios from 'axios'
 
@@ -7,7 +10,11 @@ async function run(): Promise<void> {
   const message = {
     from: core.getInput('fromPhoneNumber', {required: true}),
     to: core.getInput('toPhoneNumber', {required: true}),
-    message: core.getInput('message', {required: true})
+    channel: 'whatsapp',
+    content: {
+      contentType: 'text',
+      text: core.getInput('message', {required: true})
+    }
   }
 
   const tyntecApikey = process.env.TYNTEC_API_KEY
@@ -18,7 +25,7 @@ async function run(): Promise<void> {
     return
   }
 
-  const request = composeSendSMSRequestAxiosConfig(tyntecApikey, message)
+  const request = composeSendMessageRequestAxiosConfig(tyntecApikey, message)
   let response
   try {
     response = await axios.request<RestMessageResponse>(request)
@@ -30,7 +37,7 @@ async function run(): Promise<void> {
     return
   }
 
-  core.setOutput('requestId', response.data.requestId)
+  core.setOutput('messageId', response.data.messageId)
 }
 
 run()

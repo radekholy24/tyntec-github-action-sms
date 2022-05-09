@@ -1,18 +1,18 @@
-name: 'tyntec SMS'
-description: 'Send an SMS using tyntec SMS API'
+name: 'tyntec WhatsApp'
+description: 'Send a WhatsApp message using tyntec Conversations API'
 author: 'tyntec GmbH'
 inputs:
   fromPhoneNumber:
     required: true
-    description: 'The identification of the party sending the SMS. It can either be a phone number in the international format or an alphanumeric identifier with up to 11 characters.'
+    description: 'The WABA number of the party sending the message'
   toPhoneNumber:
     required: true
-    description: 'The phone number to send the SMS to in the international phone format E.164'
+    description: 'The phone number to send the message to'
   message:
     required: true
-    description: 'The message you want to send'
+    description: 'The ID of the template message'
 outputs:
-  requestId:
+  messageId:
     description: 'The unique identifier provided for each messaging request'
 runs:
   using: 'node12'

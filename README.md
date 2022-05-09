@@ -1,24 +1,24 @@
 <p align="center">
-  <a href="https://github.com/tyntec/github-action-sms/actions"><img alt="tyntec SMS action status" src="https://github.com/tyntec/github-action-sms/workflows/Build/badge.svg"></a>
+  <a href="https://github.com/tyntec/github-action-wa/actions"><img alt="tyntec WhatsApp action status" src="https://github.com/tyntec/github-action-wa/workflows/Build/badge.svg"></a>
 </p>
 
-# tyntec SMS GitHub Action
+# tyntec WhatsApp GitHub Action
 
-This action sends an SMS using tyntec SMS API.
+This action sends a WhatsApp message using tyntec Conversations API.
 
 ## Inputs
 
 ### `fromPhoneNumber`
 
-**Required** The identification of the party sending the SMS. It can either be a phone number in the international format or an alphanumeric identifier with up to 11 characters.
+**Required** The WABA number of the party sending the message.
 
 ### `toPhoneNumber`
 
-**Required** The phone number to send the SMS to in the international phone format E.164.
+**Required** The phone number to send the message to.
 
 ### `message`
 
-**Required** The message you want to send.
+**Required** The ID of the template message.
 
 ## Environment variables (secrets)
 
@@ -28,18 +28,18 @@ This action sends an SMS using tyntec SMS API.
 
 ## Outputs
 
-### `requestId`
+### `messageId`
 
 The unique identifier provided for each messaging request.
 
 ## Example usage
 
 ```yaml
-uses: tyntec/github-action-sms@main
+uses: tyntec/github-action-wa@main
 with:
-  fromPhoneNumber: tyntec
-  toPhoneNumber: +123456789
-  message: Hello world!
+  fromPhoneNumber: 545345345
+  toPhoneNumber: +123234234
+  message: string
 env:
   TYNTEC_API_KEY: ${{ secrets.TYNTEC_API_KEY }}
 ```

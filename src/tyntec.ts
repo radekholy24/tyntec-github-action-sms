@@ -1,12 +1,12 @@
 import {AxiosRequestConfig} from 'axios'
 
-export function composeSendSMSRequestAxiosConfig(
+export function composeSendMessageRequestAxiosConfig(
   apikey: string,
-  data: SmsMessage
+  data: WhatsAppTemplateMessage
 ): AxiosRequestConfig {
   return {
     method: 'post',
-    url: 'https://api.tyntec.com/messaging/v1/sms',
+    url: 'https://api.tyntec.com/conversations/v3/messages',
     headers: {
       accept: 'application/json',
       apikey,
@@ -16,54 +16,17 @@ export function composeSendSMSRequestAxiosConfig(
   }
 }
 
-export interface RestMessagePart {
-  currency?: string
-  deliveryState?: string
-  doneDate?: string
-  errorCode?: string
-  partId?: string
-  price?: string
-  priceEffective?: string
-  sentDate?: string
-  statusText?: string
-}
-
 export interface RestMessageResponse {
-  doneDate?: string
-  errorCode?: string
-  errorReason?: string
-  from?: string
-  href?: string
-  mccmnc?: string
-  parts?: RestMessagePart[]
-  overallPrice?: string
-  priceEffective?: string
-  reference?: string
-  requestId: string
-  sentDate?: string
-  size?: number
-  status?: string
-  submitDate?: string
-  to?: string
-  ttid?: string
+  acceptedAt: string
+  messageId: string
 }
 
-export interface SmsMessage {
+export interface WhatsAppTemplateMessage {
   to: string
   from: string
-  message: string
-  encoding?: 'AUTO' | 'GDM7' | 'UNICODE'
-  gateway?: string
-  conversion?: boolean
-  sendDateTime?: string
-  validity?: string
-  reference?: string
-  callbackUrl?: string
-  callbackMethod?: 'POST' | 'GET'
-  partLimit?: number
-  trate?: number
-  mrate?: number
-  upperCased?: boolean
-  keepEmojis?: boolean
-  flash?: boolean
+  channel: string
+  content: {
+    contentType: string
+    text: string
+  }
 }

@@ -51,14 +51,18 @@ function run() {
         const message = {
             from: core.getInput('fromPhoneNumber', { required: true }),
             to: core.getInput('toPhoneNumber', { required: true }),
-            message: core.getInput('message', { required: true })
+            channel: 'whatsapp',
+            content: {
+                contentType: 'text',
+                text: core.getInput('message', { required: true })
+            }
         };
         const tyntecApikey = process.env.TYNTEC_API_KEY;
         if (!tyntecApikey) {
             core.setFailed('Environment variable required and not supplied: TYNTEC_API_KEY');
             return;
         }
-        const request = (0, tyntec_1.composeSendSMSRequestAxiosConfig)(tyntecApikey, message);
+        const request = (0, tyntec_1.composeSendMessageRequestAxiosConfig)(tyntecApikey, message);
         let response;
         try {
             response = yield axios_1.default.request(request);
@@ -70,7 +74,7 @@ function run() {
             core.setFailed(`Failed to send message: ${error}`);
             return;
         }
-        core.setOutput('requestId', response.data.requestId);
+        core.setOutput('messageId', response.data.messageId);
     });
 }
 run();
@@ -84,11 +88,11 @@ run();
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.composeSendSMSRequestAxiosConfig = void 0;
-function composeSendSMSRequestAxiosConfig(apikey, data) {
+exports.composeSendMessageRequestAxiosConfig = void 0;
+function composeSendMessageRequestAxiosConfig(apikey, data) {
     return {
         method: 'post',
-        url: 'https://api.tyntec.com/messaging/v1/sms',
+        url: 'https://api.tyntec.com/conversations/v3/messages',
         headers: {
             accept: 'application/json',
             apikey,
@@ -97,7 +101,7 @@ function composeSendSMSRequestAxiosConfig(apikey, data) {
         data
     };
 }
-exports.composeSendSMSRequestAxiosConfig = composeSendSMSRequestAxiosConfig;
+exports.composeSendMessageRequestAxiosConfig = composeSendMessageRequestAxiosConfig;
 
 
 /***/ }),
